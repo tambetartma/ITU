@@ -1,0 +1,310 @@
+---
+openapi: 3.0.0
+info:
+  title: MCC API
+  description: |
+    This is a sample API
+  termsOfService: '#'
+  contact:
+    email: tambet.artma@rik.ee
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+- url: https://gdbs.dev.training.eregistrations.org/
+  description: Eregistrations API
+- url: https://virtserver.swaggerhub.com/tambetartma/MCC_API/1.0.1
+  description: SwaggerHub API Auto Mocking
+security:
+- ApiKeyAuth: []
+paths:
+  /data/mcc/2.0:
+    description: API endpoint that allows anyone to view and query data
+    get:
+      tags:
+      - MCC API
+      description: API endpoint that allows anyone to view and query data
+      operationId: GDB-MCC(2.0)-list
+      parameters:
+      - name: ordering
+        in: query
+        description: Which field to use when ordering the results
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Firstname
+      - name: page
+        in: query
+        description: A page number within the paginated result set
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 2
+      - name: page_size
+        in: query
+        description: Number of results to return per page
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 10
+      - name: query.ID
+        in: query
+        description: ID of the registered object in database
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: MCTS1
+      - name: query.Registration date
+        in: query
+        description: Database object registration date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+          example: 2021-01-30
+      - name: query.Expiry date
+        in: query
+        description: Database object expiry date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+          example: 2021-01-30
+      - name: query.Child.ID
+        in: query
+        description: Child ID in database
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: ID1
+      - name: query.Child.Firstname
+        in: query
+        description: Child first name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Usha
+      - name: query.Child.Lastname
+        in: query
+        description: Child last name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Bajaj
+      - name: query.Child.Birthdate
+        in: query
+        description: Child birth date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+          example: 2021-01-30
+      - name: query.Caretaker.ID
+        in: query
+        description: Caretaker ID in database
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: ID2
+      - name: query.Caretaker.Firstname
+        in: query
+        description: Caretaker first name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: John
+      - name: query.Caretaker.Lastname
+        in: query
+        description: Caretaker last name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Smith
+      - name: query.Caretaker.Birthdate
+        in: query
+        description: Caretaker birth date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+          example: 2021-01-30
+      - name: query.Caretaker.Phone
+        in: query
+        description: Caretaker phone number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: +37258000000
+      - name: query.Caretaker.Email
+        in: query
+        description: Cartaker email address
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: jonh.smith@email.com
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Bad request
+        "401":
+          description: Authorization information is missing or invalid.
+        "404":
+          description: Invalid input
+        "5XX":
+          description: Unexpected error.
+components:
+  schemas:
+    File:
+      type: object
+      properties:
+        originalName:
+          type: string
+          description: Image original name
+          example: picture.png
+        url:
+          type: string
+          description: base64-encoded file contents
+          format: byte
+    MCC:
+      type: object
+      properties:
+        ID:
+          type: string
+          description: Object ID in database
+          example: MCTS1
+        Registraion date:
+          type: string
+          description: Date of registration
+          format: date
+          example: 2021-01-30
+        Expiry date:
+          type: string
+          description: The expiry date of the registration
+          format: date
+          example: 2021-01-30
+        Child:
+          $ref: '#/components/schemas/Child'
+        Caretaker:
+          $ref: '#/components/schemas/Caretaker'
+    Child:
+      type: object
+      properties:
+        ID:
+          type: string
+          description: Child ID in database
+          example: ID1
+        Firstname:
+          type: string
+          description: Child first name
+          example: Usha
+        Lastname:
+          type: string
+          description: Child last name
+          example: Bajaj
+        Birthdate:
+          type: string
+          description: Birth date of the child
+          format: date
+          example: 2021-01-30
+        Address:
+          type: string
+          description: Child address
+          example: Longroad 123, Big Village
+        Birth_certificate:
+          $ref: '#/components/schemas/File'
+    Caretaker:
+      type: object
+      properties:
+        ID:
+          type: string
+          description: Caretaker ID in database
+          example: ID2
+        Firstname:
+          type: string
+          description: Caretaker first name
+          example: John
+        Lastname:
+          type: string
+          description: Caretaker last name
+          example: Smith
+        Birthdate:
+          type: string
+          description: Birth date of caretaker
+          format: date
+          example: 2021-01-30
+        Phone:
+          type: string
+          description: Caretaker phone number
+          example: +37258000000
+        Email:
+          type: string
+          description: Cartaker email address
+          example: jonh.smith@email.com
+        Picture:
+          $ref: '#/components/schemas/File'
+        Document ID:
+          $ref: '#/components/schemas/File'
+    inline_response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Number of results found
+          example: 1
+        next:
+          type: string
+          description: URL to see next page of results
+          nullable: true
+          example: https://gdbs.dev.training.eregistrations.org/data/mcc/2.0?filter=somavalue&page=2
+        previous:
+          type: string
+          description: URL to see previous page of results
+          nullable: true
+          example: https://gdbs.dev.training.eregistrations.org/data/mcc/2.0?filter=somavalue&page=1
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MCC'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: AuthenticationKey
+      in: header
