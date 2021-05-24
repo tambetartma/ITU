@@ -14,8 +14,6 @@ info:
 servers:
 - url: https://gdbs.dev.training.eregistrations.org/
   description: Eregistrations API
-- url: https://virtserver.swaggerhub.com/tambetartma/MCC_API/1.0.1
-  description: SwaggerHub API Auto Mocking
 security:
 - ApiKeyAuth: []
 paths:
